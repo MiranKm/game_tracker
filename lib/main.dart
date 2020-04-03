@@ -63,7 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             height: 125,
             decoration: BoxDecoration(
-              color: Constants.primaryColor.withAlpha(150),
+              color: Constants.primaryColor.withAlpha(255),
+              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,colors: <Color>[
+                Constants.primaryColor,
+                Constants.primaryColor.withAlpha(100),
+              ],
+                stops: [0.0, 1.0],
+              ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -97,10 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             value: "A",
                             underline: SizedBox(),
                             isExpanded: true,
-                            icon: Icon(
-                              Icons.arrow_drop_down_circle,
-                              color: Colors.white,
-                            ),
+                            icon:  Image.asset("assets/images/arrow.png",width: 14,),
                             items: <String>['A', 'B', 'C', 'D']
                                 .map((String value) {
                               return new DropdownMenuItem<String>(
@@ -129,10 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             value: "A",
                             underline: SizedBox(),
                             isExpanded: true,
-                            icon: Icon(
-                              Icons.arrow_drop_down_circle,
-                              color: Colors.white,
-                            ),
+                            icon:  Image.asset("assets/images/arrow.png",width: 14,),
                             items: <String>['A', 'B', 'C', 'D']
                                 .map((String value) {
                               return new DropdownMenuItem<String>(
