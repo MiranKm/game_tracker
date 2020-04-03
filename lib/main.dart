@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Constants.primaryColor,
           accentColor: Constants.accentColor,
           primarySwatch: Colors.blue,
+          canvasColor: Constants.accentColor,
           appBarTheme: AppBarTheme(
             color: Constants.primaryColor,
             textTheme: TextTheme()
@@ -48,16 +49,113 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.accentColor,
-      appBar: AppBar(
-        title: Text(
-          "Game Cracker",
+      appBar: PreferredSize(
+        preferredSize: const Size(double.infinity, kToolbarHeight + 70),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Constants.primaryColor.withAlpha(150),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
+          ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "Game Cracker",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                ),
+                Container(
+                  height: kToolbarHeight,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      Container(
+                        width: 200,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        margin: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            color: Constants.accentColor),
+                        child: DropdownButton<String>(
+                          value: "A",
+                          underline: SizedBox(),
+                          isExpanded: true,
+                          icon: Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.white,
+                          ),
+                          items:
+                              <String>['A', 'B', 'C', 'D'].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                child: new Text(
+                                  "Item#$value",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                width: 200.0, //200.0 to 100.0
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (_) {},
+                        ),
+                      ),
+                      Container(
+                        width: 200,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        margin: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            color: Constants.accentColor),
+                        child: DropdownButton<String>(
+                          value: "A",
+                          underline: SizedBox(),
+                          isExpanded: true,
+                          icon: Icon(
+                            Icons.arrow_drop_down_circle,
+                            color: Colors.white,
+                          ),
+                          items:
+                              <String>['A', 'B', 'C', 'D'].map((String value) {
+                            return new DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                child: new Text(
+                                  "Item#$value",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                width: 200.0, //200.0 to 100.0
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (_) {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
         ),
       ),
-      body: ListView(
+      body: Stack(
         children: <Widget>[
-          Item(),
-          Item(),
-          Item(),
+          ListView(
+            children: <Widget>[
+              Item(),
+              Item(),
+              Item(),
+              Item(),
+
+            ],
+          ),
         ],
       ),
     );
