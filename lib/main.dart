@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.accentColor,
+      backgroundColor: Constants.backgroundColor,
       body: Stack(
         children: <Widget>[
           ListView(
@@ -64,10 +64,13 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 125,
             decoration: BoxDecoration(
               color: Constants.primaryColor.withAlpha(255),
-              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,colors: <Color>[
-                Constants.primaryColor,
-                Constants.primaryColor.withAlpha(100),
-              ],
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Constants.primaryColor,
+                  Constants.primaryColor.withAlpha(100),
+                ],
                 stops: [0.0, 1.0],
               ),
               borderRadius: BorderRadius.only(
@@ -98,12 +101,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           margin: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: Constants.accentColor),
+                              color: Constants.primaryColor),
                           child: DropdownButton<String>(
                             value: "A",
                             underline: SizedBox(),
                             isExpanded: true,
-                            icon:  Image.asset("assets/images/arrow.png",width: 14,),
+                            icon: Image.asset(
+                              "assets/images/arrow.png",
+                              width: 14,
+                            ),
                             items: <String>['A', 'B', 'C', 'D']
                                 .map((String value) {
                               return new DropdownMenuItem<String>(
@@ -127,12 +133,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           margin: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(32),
-                              color: Constants.accentColor),
+                              color: Constants.primaryColor),
                           child: DropdownButton<String>(
                             value: "A",
                             underline: SizedBox(),
                             isExpanded: true,
-                            icon:  Image.asset("assets/images/arrow.png",width: 14,),
+                            icon: Image.asset(
+                              "assets/images/arrow.png",
+                              width: 14,
+                            ),
                             items: <String>['A', 'B', 'C', 'D']
                                 .map((String value) {
                               return new DropdownMenuItem<String>(
@@ -154,7 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ]),
           ),
-
         ],
       ),
     );
@@ -167,31 +175,51 @@ class Item extends StatelessWidget {
     return InkWell(
       splashColor: Colors.white,
       onTap: () {
-        showModalBottomSheet(
-          barrierColor: Colors.white.withAlpha(1),
-          backgroundColor: Colors.transparent,
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              height: 300,
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(10.0),
-                      topRight: const Radius.circular(10.0),
+        /**/
+
+        showBottomSheet(
+            backgroundColor: Colors.transparent,
+            builder: (BuildContext context) {
+              return Stack(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: (){
+                      print("heyy");
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white.withAlpha(0),
                     ),
-                    color: Colors.white.withAlpha(150),
                   ),
-                ),
-              ),
-            );
-          },
-        );
+                  BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                    child: Container(
+                      margin: EdgeInsets.only(top: 100),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(10.0),
+                          topRight: const Radius.circular(10.0),
+                        ),
+                        color: Colors.white.withAlpha(150),
+                      ),
+                      child: Column(children: <Widget>[
+                        SizedBox(height: 10,),
+                        Container(width: 100,color: Colors.white,height: 2,),
+                        SizedBox(height: 10,),
+                        Image.asset("assets/images/cover.jpeg"),
+
+                        RaisedButton(onPressed: () { print("yess"); },),
+                      ],),
+                    ),
+                  ),
+                ],
+              );
+            },
+            context: context);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         elevation: 4,
         color: Constants.primaryColor,
         shape: RoundedRectangleBorder(
@@ -199,18 +227,15 @@ class Item extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.asset("assets/images/poster1.jpg", height: 250),
-              ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: Image.asset("assets/images/poster1.jpg", height: 250),
             ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: 250,
+                  height: 220,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -245,3 +270,12 @@ class Item extends StatelessWidget {
     );
   }
 }
+
+/*showBottomSheet(
+          backgroundColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context) {
+            return
+          },
+        );
+*/
