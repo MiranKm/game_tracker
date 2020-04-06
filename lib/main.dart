@@ -63,9 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
     "All": "",
   };
 
-  final gameStatusType = ["Cracked", "Not Cracked", "All"];
-  String gameStatus;
-
+  static const gameStatusType = ["Cracked", "Not Cracked", "All"];
+  String gameStatus=gameStatusType[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,9 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return Item(
-                        title: snapshot.data[index].title,
-                        image: snapshot.data[index].imagePoster,
-                        releaseDate:snapshot.data[index].releaseDate
+                      game:snapshot.data[index],
                       );
                     }, childCount: snapshot.data.length),
                   )
@@ -256,11 +253,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Item extends StatelessWidget {
-  final String title;
-  final String image;
-  final DateTime releaseDate;
+    final Game game;
 
-  Item({this.title, this.image, this.releaseDate});
+  Item({this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -307,7 +302,15 @@ class Item extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        RaisedButton(
+                        CachedNetworkImage(
+                          imageUrl: game.image,
+                          fit: BoxFit.cover,
+                          fadeInCurve: Curves.easeIn,
+                          errorWidget: (context, wig, str)=>Center(child: Icon(Icons.error_outline,color: Colors.white,),),
+                          placeholder: (context, str) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),                        RaisedButton(
                           onPressed: () {
                             print("yess");
                             Navigator.of(context).push(MaterialPageRoute(
@@ -337,8 +340,9 @@ class Item extends StatelessWidget {
               child: Container(
                 width: 180,
                 child: CachedNetworkImage(
-                  imageUrl: image,
+                  imageUrl: game.imagePoster,
                   fit: BoxFit.cover,
+                  fadeInCurve: Curves.easeIn,
                   errorWidget: (context, wig, str)=>Center(child: Icon(Icons.error_outline,color: Colors.white,),),
                   placeholder: (context, str) => Center(
                     child: CircularProgressIndicator(),
@@ -357,7 +361,7 @@ class Item extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          title ?? "n/a",
+                          game.title ?? "n/a",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
@@ -367,7 +371,7 @@ class Item extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          ("Release Date \n ${releaseDate.toLocal().toString().split(" ").first}")?? "n/a",
+                          ("Release Date \n ${game.releaseDate.toLocal().toString().split(" ").first}")?? "n/a",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,

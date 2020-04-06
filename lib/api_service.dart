@@ -9,13 +9,14 @@ class ApiService {
 
   Future<List<Game>> getData({String gameStatus}) async {
 
-    String a="";
     print("$gameStatus");
-    if(gameStatus =="Cracked") a = "is_cracked=true";
-    else if (gameStatus =="Cracked") a= "is_cracked=false";
-    else a = "";
 
-    var response = await client.get("https://api.crackwatch.com/api/games?${a}");
+    String a="";
+    if(gameStatus =="Cracked") a = "is_cracked=true&sort_by=crack_date";
+    else if (gameStatus =="Not Cracked") a= "is_cracked=false";
+    else a = "sort_by=release_date";
+
+    var response = await client.get("https://api.crackwatch.com/api/games?$a");
     print(response.statusCode);
     print(response.statusMessage);
 
