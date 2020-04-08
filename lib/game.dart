@@ -13,6 +13,7 @@ class Game {
   String title;
   String slug;
   DateTime releaseDate;
+  DateTime crackDate;
   List<String> protections;
   List<String> versions;
   String image;
@@ -26,11 +27,13 @@ class Game {
   String url;
   int steamPrice;
 
+
   Game({
     this.id,
     this.title,
     this.slug,
     this.releaseDate,
+    this.crackDate,
     this.protections,
     this.versions,
     this.image,
@@ -50,6 +53,7 @@ class Game {
     title: json["title"] == null ? null : json["title"],
     slug: json["slug"] == null ? null : json["slug"],
     releaseDate: json["releaseDate"] == null ? null : DateTime.parse(json["releaseDate"]),
+    crackDate: json["crackDate"] == null ? null : DateTime.parse(json["crackDate"]),
     protections: json["protections"] == null ? null : List<String>.from(json["protections"].map((x) => x)),
     versions: json["versions"] == null ? null : List<String>.from(json["versions"].map((x) => x)),
     image: json["image"] == null ? null : json["image"],
@@ -69,6 +73,7 @@ class Game {
     "title": title == null ? null : title,
     "slug": slug == null ? null : slug,
     "releaseDate": releaseDate == null ? null : releaseDate.toIso8601String(),
+    "crackDate": crackDate == null ? null : crackDate.toIso8601String(),
     "protections": protections == null ? null : List<dynamic>.from(protections.map((x) => x)),
     "versions": versions == null ? null : List<dynamic>.from(versions.map((x) => x)),
     "image": image == null ? null : image,

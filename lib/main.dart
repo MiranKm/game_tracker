@@ -1,14 +1,14 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttergame/api_service.dart';
-import 'package:fluttergame/details.dart';
+import 'package:fluttergame/details_sheet.dart';
 import 'package:fluttergame/game.dart';
-
+import 'package:intl/intl.dart';
 import 'constants.dart';
 
 void main() {
@@ -63,15 +63,23 @@ class _MyHomePageState extends State<MyHomePage> {
     "All": "",
   };
 
+  final ctrl = ScrollController();
+
   static const gameStatusType = ["Cracked", "Not Cracked", "All"];
-  String gameStatus=gameStatusType[0];
+  static const gamesType = ["AAA", "Indie", "Both"];
+
+  String gameStatus = gameStatusType[0];
+  String gameType = gamesType[0];
+  int page = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
       body: Container(
         child: FutureBuilder(
-          future: ApiService().getData(gameStatus: gameStatus),
+          future:
+              ApiService().getData(gameType: gameType, gameStatus: gameStatus),
           builder: (BuildContext context, AsyncSnapshot<List<Game>> snapshot) {
             if (snapshot.data == null)
               return Center(
@@ -112,8 +120,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       Container(),
                     ]),
               );
-            else
+            else {
+              ctrl.addListener(() {
+                if (ctrl.offset >= ctrl.position.maxScrollExtent &&
+                    !ctrl.position.outOfRange) {
+                  print("reached bottom");
+                  setState(() {
+                    page++;
+                  });
+                  print(page);
+                }
+              });
+
               return CustomScrollView(
+                controller: ctrl,
                 slivers: <Widget>[
                   SliverAppBar(
                     floating: true,
@@ -159,40 +179,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: <Widget>[
-                                /*    Container(
-                                      width: 200,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      margin: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(32),
-                                          color: Constants.primaryColor),
-                                      child: DropdownButton<String>(
-                                        value: "A",
-                                        underline: SizedBox(),
-                                        isExpanded: true,
-                                        icon: Image.asset(
-                                          "assets/images/arrow.png",
-                                          width: 14,
-                                        ),
-                                        items: <String>['A', 'B', 'C', 'D']
-                                            .map((String value) {
-                                          return new DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Container(
-                                              child: new Text(
-                                                "Item#$value",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                              width: 200.0, //200.0 to 100.0
-                                            ),
-                                          );
-                                        }).toList(),
-                                        onChanged: (_) {},
-                                      ),
-                                    ),*/
                                     Container(
                                       width: 200,
                                       padding: EdgeInsets.symmetric(
@@ -213,11 +199,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                         items: gameStatusType.map((value) {
                                           return DropdownMenuItem<String>(
-                                            child: Text(
-                                              value,
-                                              style: TextStyle(
-                                                  fontFamily: "ReemKufi",
-                                                  color: Colors.white),
+                                            child: Container(
+                                              padding: EdgeInsets.all(4),
+                                              child: Text(
+                                                value,
+                                                style: TextStyle(
+                                                    fontFamily: "ReemKufi",
+                                                    color: Colors.white),
+                                              ),
                                             ),
                                             value: value,
                                           );
@@ -225,6 +214,45 @@ class _MyHomePageState extends State<MyHomePage> {
                                         onChanged: (val) {
                                           setState(() {
                                             gameStatus = val;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 200,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      margin: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(32),
+                                          color: Constants.primaryColor),
+                                      child: DropdownButton<String>(
+                                        value: gameType,
+                                        underline: SizedBox(),
+                                        style: TextStyle(color: Colors.white),
+                                        isExpanded: true,
+                                        icon: Image.asset(
+                                          "assets/images/arrow.png",
+                                          width: 14,
+                                        ),
+                                        items: gamesType.map((value) {
+                                          return DropdownMenuItem<String>(
+                                            child: Container(
+                                              padding: EdgeInsets.all(4),
+                                              child: Text(
+                                                value,
+                                                style: TextStyle(
+                                                    fontFamily: "ReemKufi",
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            value: value,
+                                          );
+                                        }).toList(),
+                                        onChanged: (val) {
+                                          setState(() {
+                                            gameType = val;
                                           });
                                         },
                                       ),
@@ -239,12 +267,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       return Item(
-                      game:snapshot.data[index],
+                        game: snapshot.data[index],
                       );
                     }, childCount: snapshot.data.length),
                   )
                 ],
               );
+            }
           },
         ),
       ),
@@ -252,79 +281,25 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class Item extends StatelessWidget {
-    final Game game;
+class Item extends StatefulWidget {
+  final Game game;
 
   Item({this.game});
+
+  @override
+  _ItemState createState() => _ItemState(game);
+}
+
+class _ItemState extends State<Item> {
+  final Game game;
+  _ItemState(this.game);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.white,
       onTap: () {
-        showBottomSheet(
-          backgroundColor: Colors.transparent,
-          context: context,
-          builder: (BuildContext context) {
-            return Stack(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.transparent,
-                  ),
-                ),
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(top: 100),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0),
-                      ),
-                      color: Colors.white.withAlpha(150),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: 100,
-                          color: Colors.white,
-                          height: 2,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CachedNetworkImage(
-                          imageUrl: game.image,
-                          fit: BoxFit.cover,
-                          fadeInCurve: Curves.easeIn,
-                          errorWidget: (context, wig, str)=>Center(child: Icon(Icons.error_outline,color: Colors.white,),),
-                          placeholder: (context, str) => Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),                        RaisedButton(
-                          onPressed: () {
-                            print("yess");
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DetailsPage()));
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
+        DetailsSheet.detailsSheet(context, game);
       },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -343,7 +318,12 @@ class Item extends StatelessWidget {
                   imageUrl: game.imagePoster,
                   fit: BoxFit.cover,
                   fadeInCurve: Curves.easeIn,
-                  errorWidget: (context, wig, str)=>Center(child: Icon(Icons.error_outline,color: Colors.white,),),
+                  errorWidget: (context, wig, str) => Center(
+                    child: Icon(
+                      Icons.error_outline,
+                      color: Colors.white,
+                    ),
+                  ),
                   placeholder: (context, str) => Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -371,7 +351,10 @@ class Item extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          ("Release Date \n ${game.releaseDate.toLocal().toString().split(" ").first}")?? "n/a",
+                          ("Release Date \n ${DateFormat()
+                              .add_yMMMd()
+                              .format(game.releaseDate)}") ??
+                              "n/a",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,

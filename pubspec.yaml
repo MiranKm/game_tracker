@@ -14,12 +14,13 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   dio: 3.0.9
   cached_network_image: ^2.0.0
   provider: ^4.0.4
+  intl: ^0.16.1
 
   flutter:
     sdk: flutter
