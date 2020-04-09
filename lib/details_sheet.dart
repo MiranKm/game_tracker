@@ -72,7 +72,13 @@ class DetailsBottomSheet extends StatelessWidget {
                           ),
                         ),
                         placeholder: (context, str) => Center(
-                          child: Container(height: 100,child: Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),))),
+                          child: Container(
+                              height: 100,
+                              child: Center(
+                                  child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation(
+                                    Theme.of(context).primaryColor),
+                              ))),
                         ),
                       ),
                     ),
@@ -100,26 +106,23 @@ class DetailsBottomSheet extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                     child: Column(
                       children: <Widget>[
-
                         _buildDetailItem(
                             detailInfo: DateFormat()
                                 .add_yMMMd()
                                 .format(game.releaseDate),
                             itemDetailText: "Release Date"),
-
-                        game.steamPrice == null
-                            ? Container()
-                            :_buildDetailItem(
-                            detailInfo:"${game.steamPrice}\$",
-                            itemDetailText: "Steam price"),
-
+                        if (game.steamPrice != null && game.steamPrice > 0) ...[
+                          _buildDetailItem(
+                              detailInfo: "${game.steamPrice}\$",
+                              itemDetailText: "Steam price"),
+                        ],
                         game.crackDate == null
                             ? Container()
                             : _buildDetailItem(
                                 detailInfo: DateFormat()
                                     .add_yMMMd()
                                     .format(game.crackDate),
-                                color:Colors.green[500],
+                                color: Colors.green[500],
                                 itemDetailText: "Cracked Date"),
                         game.crackDate == null
                             ? Text(
@@ -130,9 +133,11 @@ class DetailsBottomSheet extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               )
                             : Container(),
-
-                        game.groups != null ?
-                        _buildDetailItem(itemDetailText: "Group", detailInfo: game.groups.join("")):Container(),
+                        if (game.groups != null && game.groups.length > 0) ...[
+                          _buildDetailItem(
+                              itemDetailText: "Group",
+                              detailInfo: game.groups.join(""))
+                        ]
                       ],
                     ),
                   ),
@@ -145,13 +150,13 @@ class DetailsBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailItem({String itemDetailText,String detailInfo, Color color=Colors.white}) {
+  Widget _buildDetailItem(
+      {String itemDetailText, String detailInfo, Color color = Colors.white}) {
     return Container(
       margin: EdgeInsets.only(top: 5, bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-
           Text(
             itemDetailText,
             style: TextStyle(fontSize: 18, color: color),
