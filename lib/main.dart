@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Crack watch',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: "ReemKufi",
@@ -36,16 +36,13 @@ class MyApp extends StatelessWidget {
                 .merge(TextTheme(subtitle1: TextStyle(fontFamily: "ReemKufi"))),
           )),
       home: SafeArea(
-        child: MyHomePage(title: 'Flutter Demo Home Page'),
+        child: MyHomePage(),
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -169,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  "Game Cracker",
+                                  "Crack watch",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 30),
                                 ),
@@ -324,8 +321,11 @@ class _ItemState extends State<Item> {
                       color: Colors.white,
                     ),
                   ),
-                  placeholder: (context, str) => Center(
-                    child: CircularProgressIndicator(),
+                  placeholder: (context, str) => Container(
+                    margin: EdgeInsets.all(10),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                 ),
               ),
