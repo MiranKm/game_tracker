@@ -118,16 +118,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     ]),
               );
             else {
-              ctrl.addListener(() {
+
+
+            /*  ctrl.addListener(() {
+
+
+
+
+                *//*  if(ctrl.position.atEdge)
+                  {
+                    print("At edge ${ctrl.position.atEdge} \n page ${page++}");
+
+
+                  }
+*//**//*
                 if (ctrl.offset >= ctrl.position.maxScrollExtent &&
                     !ctrl.position.outOfRange) {
-                  print("reached bottom");
-                  setState(() {
-                    page++;
-                  });
+//                  print("reached bottom");
+
                   print(page);
-                }
-              });
+                }*//*
+              });*/
 
               return CustomScrollView(
                 controller: ctrl,

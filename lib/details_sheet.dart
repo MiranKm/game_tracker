@@ -26,123 +26,147 @@ class DetailsBottomSheet extends StatelessWidget {
             color: Colors.transparent,
           ),
         ),
+
+      /*  ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(top: 100),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10.0),
+                  topRight: const Radius.circular(10.0),
+                ),
+                color: Colors.white.withAlpha(150),
+              ),
+
+            ),
+          ),
+        ),*/
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+
           child: Container(
-            width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.only(top: 100),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(10.0),
-                topRight: const Radius.circular(10.0),
-              ),
-              color: Colors.white.withAlpha(150),
-            ),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: 100,
-                  color: Colors.white,
-                  height: 2,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 6,
-                    margin: EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CachedNetworkImage(
-                        imageUrl: game.image,
-                        fit: BoxFit.cover,
-                        fadeInCurve: Curves.easeIn,
-                        errorWidget: (context, wig, str) => Center(
-                          child: Icon(
-                            Icons.error_outline,
-                            color: Colors.white,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(10.0),
+                        topRight: const Radius.circular(10.0),
+                      ),
+                      color: Colors.grey.shade200.withOpacity(0.5)),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: 100,
+                        color: Colors.white,
+                        height: 2,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          elevation: 6,
+                          margin: EdgeInsets.all(0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl: game.image,
+                              fit: BoxFit.cover,
+                              fadeInCurve: Curves.easeIn,
+                              errorWidget: (context, wig, str) => Center(
+                                child: Icon(
+                                  Icons.error_outline,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              placeholder: (context, str) => Center(
+                                child: Container(
+                                    height: 100,
+                                    child: Center(
+                                        child: CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Theme.of(context).primaryColor),
+                                        ))),
+                              ),
+                            ),
                           ),
                         ),
-                        placeholder: (context, str) => Center(
-                          child: Container(
-                              height: 100,
-                              child: Center(
-                                  child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation(
-                                    Theme.of(context).primaryColor),
-                              ))),
-                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Card(
-                  elevation: 6,
-                  margin: EdgeInsets.all(8.0),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(8.0),
-                      margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                      child: Text(
-                        game.title,
-                        style: TextStyle(fontSize: 18),
-                      )),
-                ),
-                Card(
-                  elevation: 6,
-                  color: Theme.of(context).accentColor,
-                  margin: EdgeInsets.all(8.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.all(8.0),
-                    margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    child: Column(
-                      children: <Widget>[
-                        _buildDetailItem(
-                            detailInfo: DateFormat()
-                                .add_yMMMd()
-                                .format(game.releaseDate),
-                            itemDetailText: "Release Date"),
-                        if (game.steamPrice != null && game.steamPrice > 0) ...[
-                          _buildDetailItem(
-                              detailInfo: "${game.steamPrice}\$",
-                              itemDetailText: "Steam price"),
-                        ],
-                        game.crackDate == null
-                            ? Container()
-                            : _buildDetailItem(
-                                detailInfo: DateFormat()
-                                    .add_yMMMd()
-                                    .format(game.crackDate),
-                                color: Colors.green[500],
-                                itemDetailText: "Cracked Date"),
-                        game.crackDate == null
-                            ? Text(
+                      Card(
+                        elevation: 6,
+                        margin: EdgeInsets.all(8.0),
+                        child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.all(8.0),
+                            margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                            child: Text(
+                              game.title,
+                              style: TextStyle(fontSize: 18),
+                            )),
+                      ),
+                      Card(
+                        elevation: 6,
+                        color: Theme.of(context).accentColor,
+                        margin: EdgeInsets.all(8.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(8.0),
+                          margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          child: Column(
+                            children: <Widget>[
+                              _buildDetailItem(
+                                  detailInfo: DateFormat()
+                                      .add_yMMMd()
+                                      .format(game.releaseDate),
+                                  itemDetailText: "Release Date"),
+                              if (game.steamPrice != null && game.steamPrice > 0) ...[
+                                _buildDetailItem(
+                                    detailInfo: "${game.steamPrice}\$",
+                                    itemDetailText: "Steam price"),
+                              ],
+                              game.crackDate == null
+                                  ? Container()
+                                  : _buildDetailItem(
+                                  detailInfo: DateFormat()
+                                      .add_yMMMd()
+                                      .format(game.crackDate),
+                                  color: Colors.green[500],
+                                  itemDetailText: "Cracked Date"),
+                              game.crackDate == null
+                                  ? Text(
                                 "Not cracked yet",
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.red,
                                     fontWeight: FontWeight.bold),
                               )
-                            : Container(),
-                        if (game.groups != null && game.groups.length > 0) ...[
-                          _buildDetailItem(
-                              itemDetailText: "Group",
-                              detailInfo: game.groups.join(""))
-                        ]
-                      ],
-                    ),
+                                  : Container(),
+                              if (game.groups != null && game.groups.length > 0) ...[
+                                _buildDetailItem(
+                                    itemDetailText: "Group",
+                                    detailInfo: game.groups.join(""))
+                              ]
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

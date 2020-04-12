@@ -6,7 +6,7 @@ class ApiService {
   List<Game> gameList = List<Game>();
 
   Future<List<Game>> getData({int page=0,String gameStatus, String gameType}) async {
-    print("$gameStatus");
+//    print("$gameStatus");
     print("$gameType");
 
     String a = "";
@@ -29,7 +29,6 @@ class ApiService {
       gameList.add(Game.fromJson(element));
     });
 
-    print("Games size ${gameList.length}");
     return gameList;
   }
 }
