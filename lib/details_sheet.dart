@@ -14,7 +14,6 @@ class DetailsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(game.crackDate);
     return Stack(
       children: <Widget>[
         GestureDetector(
@@ -26,27 +25,8 @@ class DetailsBottomSheet extends StatelessWidget {
             color: Colors.transparent,
           ),
         ),
-
-      /*  ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 100),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(10.0),
-                  topRight: const Radius.circular(10.0),
-                ),
-                color: Colors.white.withAlpha(150),
-              ),
-
-            ),
-          ),
-        ),*/
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-
           child: Container(
             margin: EdgeInsets.only(top: 100),
             child: ClipRect(
@@ -97,9 +77,9 @@ class DetailsBottomSheet extends StatelessWidget {
                                     height: 100,
                                     child: Center(
                                         child: CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation(
-                                              Theme.of(context).primaryColor),
-                                        ))),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Theme.of(context).primaryColor),
+                                    ))),
                               ),
                             ),
                           ),
@@ -111,7 +91,8 @@ class DetailsBottomSheet extends StatelessWidget {
                         child: Container(
                             width: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.all(8.0),
-                            margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 4),
                             child: Text(
                               game.title,
                               style: TextStyle(fontSize: 18),
@@ -124,7 +105,8 @@ class DetailsBottomSheet extends StatelessWidget {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.all(8.0),
-                          margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                           child: Column(
                             children: <Widget>[
                               _buildDetailItem(
@@ -132,7 +114,8 @@ class DetailsBottomSheet extends StatelessWidget {
                                       .add_yMMMd()
                                       .format(game.releaseDate),
                                   itemDetailText: "Release Date"),
-                              if (game.steamPrice != null && game.steamPrice > 0) ...[
+                              if (game.steamPrice != null &&
+                                  game.steamPrice > 0) ...[
                                 _buildDetailItem(
                                     detailInfo: "${game.steamPrice}\$",
                                     itemDetailText: "Steam price"),
@@ -140,21 +123,22 @@ class DetailsBottomSheet extends StatelessWidget {
                               game.crackDate == null
                                   ? Container()
                                   : _buildDetailItem(
-                                  detailInfo: DateFormat()
-                                      .add_yMMMd()
-                                      .format(game.crackDate),
-                                  color: Colors.green[500],
-                                  itemDetailText: "Cracked Date"),
+                                      detailInfo: DateFormat()
+                                          .add_yMMMd()
+                                          .format(game.crackDate),
+                                      color: Colors.green[500],
+                                      itemDetailText: "Cracked Date"),
                               game.crackDate == null
                                   ? Text(
-                                "Not cracked yet",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              )
+                                      "Not cracked yet",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold),
+                                    )
                                   : Container(),
-                              if (game.groups != null && game.groups.length > 0) ...[
+                              if (game.groups != null &&
+                                  game.groups.length > 0) ...[
                                 _buildDetailItem(
                                     itemDetailText: "Group",
                                     detailInfo: game.groups.join(""))
@@ -197,9 +181,10 @@ class DetailsBottomSheet extends StatelessWidget {
 
 class DetailsSheet {
   static detailsSheet(context, game) => showBottomSheet(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext context) {
-        return DetailsBottomSheet(game: game);
-      });
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return DetailsBottomSheet(game: game);
+        },
+      );
 }

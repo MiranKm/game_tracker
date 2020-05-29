@@ -16,25 +16,27 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Crack watch',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: "ReemKufi",
-          textTheme: TextTheme()
-              .merge(TextTheme(subtitle1: TextStyle(fontFamily: "ReemKufi"))),
-          primaryColor: Constants.primaryColor,
-          accentColor: Constants.accentColor,
-          primarySwatch: Colors.blue,
-          canvasColor: Constants.accentColor,
-          appBarTheme: AppBarTheme(
-            color: Constants.primaryColor,
-            textTheme: TextTheme()
-                .merge(TextTheme(subtitle1: TextStyle(fontFamily: "ReemKufi"))),
-          )),
+        fontFamily: "ReemKufi",
+        textTheme: TextTheme(
+          subtitle1: TextStyle(fontFamily: "ReemKufi"),
+        ),
+        primaryColor: Constants.primaryColor,
+        accentColor: Constants.accentColor,
+        primarySwatch: Colors.blue,
+        canvasColor: Constants.accentColor,
+        appBarTheme: AppBarTheme(
+          color: Constants.primaryColor,
+          textTheme: TextTheme(
+            subtitle1: TextStyle(fontFamily: "ReemKufi"),
+          ),
+        ),
+      ),
       home: SafeArea(
         child: MyHomePage(),
       ),
@@ -43,7 +45,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -118,28 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ]),
               );
             else {
-
-
-            /*  ctrl.addListener(() {
-
-
-
-
-                *//*  if(ctrl.position.atEdge)
-                  {
-                    print("At edge ${ctrl.position.atEdge} \n page ${page++}");
-
-
-                  }
-*//**//*
-                if (ctrl.offset >= ctrl.position.maxScrollExtent &&
-                    !ctrl.position.outOfRange) {
-//                  print("reached bottom");
-
-                  print(page);
-                }*//*
-              });*/
-
               return CustomScrollView(
                 controller: ctrl,
                 slivers: <Widget>[
@@ -300,6 +279,7 @@ class Item extends StatefulWidget {
 
 class _ItemState extends State<Item> {
   final Game game;
+
   _ItemState(this.game);
 
   @override
@@ -362,9 +342,7 @@ class _ItemState extends State<Item> {
                       Expanded(
                         flex: 1,
                         child: Text(
-                          ("Release Date \n ${DateFormat()
-                              .add_yMMMd()
-                              .format(game.releaseDate)}") ??
+                          ("Release Date \n ${DateFormat().add_yMMMd().format(game.releaseDate)}") ??
                               "n/a",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
